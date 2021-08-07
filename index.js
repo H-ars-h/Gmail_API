@@ -1,5 +1,5 @@
 
-const {Base64} = require('js-base64');    //required for encoding purpore because gmail messages are endoded in base64
+const {Base64} = require('js-base64');    //required for encoding purpore 
 const fs = require('fs');                 //required for reading & writing token file
 const {google} = require('googleapis');   //google api which is important in this program
 const express = require('express');       //this is used to host our application
@@ -12,8 +12,8 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
 
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization completes for the first time.
-const TOKEN_PATH = 'token.json';    
-let oAuth2Client = null;            
+const TOKEN_PATH = 'token.json';    //set path of token to store
+let oAuth2Client = null;            //to access in get method at 'sendmail' path this is required
 let info = {                        
   to: null,
   subject: null,
@@ -34,7 +34,8 @@ app.get('/:to/:subject/:message',(req,res)=>{
       message: req.params.message,
     }
   }
-  //It will check credentials.json file.
+ 
+  //It will check credentials.json file else you need to download it.
   fs.readFile('credentials.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     
@@ -55,7 +56,7 @@ function authorize(credentials, res) {
     if (err) return getNewToken(oAuth2Client, res); //if not then get new tocken
     oAuth2Client.setCredentials(JSON.parse(token));
     const message = await sendmessage(oAuth2Client)
-      console.log(message,"asdfghjk")
+      console.log(message);
             res.send(message);  
   });
 }
